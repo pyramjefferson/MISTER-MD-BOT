@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ht">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050b18">
+  <title>MISTER-MD-BOT | Pair WhatsApp</title>
+  <style>
+    :root{color-scheme:dark;--blue:#168cff;--cyan:#00d9ff;--panel:rgba(8,17,36,.88)}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:Inter,system-ui,Arial,sans-serif;color:#f5f8ff;background:radial-gradient(ellipse at 50% 0%,#063c82 0,transparent 48%),#030711;display:flex;align-items:center;justify-content:center;padding:22px}
+    .wrap{width:min(100%,920px);border:1px solid #1b4f91;border-radius:26px;overflow:hidden;background:var(--panel);box-shadow:0 25px 90px #007bff22}
+    .hero{position:relative;background:#030711}
+    .hero img{width:100%;display:block;max-height:420px;object-fit:cover}
+    .badge{position:absolute;left:18px;top:18px;padding:8px 13px;border:1px solid #3baaff;border-radius:999px;background:#041328d9;color:#b9eaff;font-size:12px;font-weight:800;letter-spacing:1.5px}
+    .content{padding:clamp(22px,5vw,46px);display:grid;grid-template-columns:1.1fr .9fr;gap:30px}
+    h1{margin:0 0 10px;font-size:clamp(28px,5vw,42px);line-height:1.05;letter-spacing:-1.2px}
+    h1 span{color:var(--cyan)}
+    p{color:#b9c7dc;line-height:1.65;margin:0 0 18px}
+    .steps{display:grid;gap:12px;margin-top:22px}
+    .step{display:flex;gap:12px;align-items:flex-start;color:#d8e5f8;font-size:14px}
+    .num{flex:0 0 28px;height:28px;border-radius:9px;background:#07386b;border:1px solid #168cff;display:grid;place-items:center;color:#8ce8ff;font-weight:800}
+    .card{padding:23px;border:1px solid #1c4778;background:#071329;border-radius:20px;align-self:center}
+    label{display:block;font-size:13px;color:#d6e8ff;margin-bottom:9px;font-weight:700}
+    input{width:100%;padding:15px 14px;border:1px solid #28517e;border-radius:12px;background:#030916;color:white;font-size:16px;outline:none}
+    input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #00d9ff20}
+    button{width:100%;margin-top:12px;padding:15px;border:0;border-radius:12px;background:linear-gradient(100deg,#0878ff,#00c9ef);color:#00101d;font-size:15px;font-weight:900;cursor:pointer}
+    button:hover{filter:brightness(1.1)}
+    .note{font-size:12px;color:#93a9c4;margin-top:14px}
+    .channel{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#6ee9ff;font-weight:800;margin-top:6px}
+    footer{padding:0 24px 24px;text-align:center;color:#6f86a6;font-size:12px}
+    @media(max-width:700px){.content{grid-template-columns:1fr}.hero img{min-height:180px;object-fit:cover}.card{order:-1}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <img src="/public/mister-md-bot.png" alt="MISTER-MD-BOT artwork">
+      <div class="badge">⚡ WHATSAPP PAIRING</div>
+    </header>
+    <section class="content">
+      <div>
+        <h1>Connecte WhatsApp<br><span>MISTER-MD-BOT</span> 🔥</h1>
+        <p>Yon paj pou ede w konekte bot la ak kont WhatsApp ou. Sèvi sèlman ak yon nimewo ou posede oswa ou gen pèmisyon pou itilize.</p>
+        <div class="steps">
+          <div class="step"><span class="num">1</span><span>Mete nimewo WhatsApp la ak kòd peyi a, sèlman chif yo. Egzanp Ayiti: <b>509XXXXXXXX</b>.</span></div>
+          <div class="step"><span class="num">2</span><span>Sou sèvè a, mete <b>PAIRING_NUMBER</b> nan Environment Render epi relanse sèvis la.</span></div>
+          <div class="step"><span class="num">3</span><span>Gade Render Logs pou kòd pairing la, epi antre li nan WhatsApp → Linked devices → Link with phone number.</span></div>
+        </div>
+        <a class="channel" href="https://whatsapp.com/channel/0029Vb8oizBBKfi9ZF3urZ29" target="_blank" rel="noopener">📣 Voir la chaîne WhatsApp ↗</a>
+      </div>
+      <form class="card" id="pairForm">
+        <h2 style="margin:0 0 8px">🔗 Pairing Setup</h2>
+        <p style="font-size:13px">Fòm sa a montre nimewo a pou w ka kopye l. Li pa voye nimewo a sou okenn sèvis.</p>
+        <label for="phone">Nimewo WhatsApp (ak kòd peyi)</label>
+        <input id="phone" name="phone" inputmode="numeric" autocomplete="tel" placeholder="509XXXXXXXX" maxlength="16" required>
+        <button type="submit">KOPYE PAIRING_NUMBER</button>
+        <div id="status" class="note" role="status">Kòd pairing la parèt nan Render Logs, pa sou paj sa a.</div>
+        <div class="note">Sekirite: pa pataje kòd pairing ou ni dosye sesyon bot la.</div>
+      </form>
+    </section>
+    <footer>© MISTER-MD-BOT · Public / Private · Prefix .</footer>
+  </main>
+  <script>
+    const form = document.getElementById('pairForm');
+    const phone = document.getElementById('phone');
+    const status = document.getElementById('status');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const number = phone.value.replace(/\D/g, '');
+      if (number.length < 8 || number.length > 15) {
+        status.textContent = '⚠️ Mete yon nimewo valab ki gen kòd peyi a.';
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(number);
+        status.textContent = '✅ Nimewo a kopye! Mete li kòm PAIRING_NUMBER nan Render Environment, epi redeploy.';
+      } catch (_) {
+        status.textContent = 'Nimewo a: ' + number + ' — mete li kòm PAIRING_NUMBER nan Render Environment.';
+      }
+    });
+  </script>
+</body>
+</html>
